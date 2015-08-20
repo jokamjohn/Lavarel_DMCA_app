@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmDMCARequest;
+use App\Notice;
 use App\Provider;
+use Auth;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
 
 class NoticesController extends Controller
 {
@@ -27,7 +30,7 @@ class NoticesController extends Controller
      */
     public function index(){
 
-        return 'all';
+        return Auth::user()->notices;
     }
 
     /**
@@ -77,11 +80,34 @@ class NoticesController extends Controller
         return $template;
     }
 
-    public function store ()
+    /**
+     * storing the new notice
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function store (Request $request)
     {
+        $this->createNotice($request);
+
+
+        return redirect('notices');
+
+    }
+
+    /**
+     * Create a new notice
+     * @param Request $request
+     */
+    public function createNotice(Request $request)
+    {
+        //getting data from the session
         $data = session()->get('dcma');
 
-        return \Request::input('template');
+        //creating a new notice, add the data to the notice
+        $notice = Notice::open($data)
+            ->useTemplate($request->input('template'));
 
+        //Getting the user and user_id
+        Auth::user()->notices()->save($notice);
     }
 }
