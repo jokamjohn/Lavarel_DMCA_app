@@ -9,7 +9,7 @@
 
         <div class="form-group">
             {!! Form::label('provider_id', 'Who are we sending this to?') !!}
-            {!! Form::select('provider_id', [], null, ['class' => 'form-control']) !!}
+            {!! Form::select('provider_id', $providers, null, ['class' => 'form-control']) !!}
         </div>
 
         <div class="form-group">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmDMCARequest;
+use App\Provider;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -35,12 +36,13 @@ class NoticesController extends Controller
     public function create (){
 
         //get list of providers
-        //create a view for the route
+        $providers = Provider::lists('name', 'id');
 
-        return view('notices.create');
+        return view('notices.create',compact('providers'));
     }
 
-    public function confirm (ConfirmDMCARequest $Request) {
+    public function confirm (ConfirmDMCARequest $request) {
 
+        return $request->all();
     }
 }
