@@ -3,6 +3,8 @@
 @section('content')
 <h1 class="page-heading">create notice</h1>
 
+        @include('errors.list')
+
     {!! Form::open([ 'method' => 'GET', 'action' => 'NoticesController@confirm' ]) !!}
 
         <div class="form-group">
@@ -35,5 +37,7 @@
         </div>
 
     {!! Form::close() !!}
+
+
 
     @stop
