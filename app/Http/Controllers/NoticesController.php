@@ -51,7 +51,10 @@ class NoticesController extends Controller
     public function confirm (ConfirmDMCARequest $request, Guard $auth) {
 
 
-        $template = $this->CompileDCMA($request->all(), $auth);
+        $template = $this->CompileDCMA($data = $request->all(), $auth);
+
+        //storing data in the session
+        session()->flash('dcma', $data);
 
         return view('notices.confirm', compact('template'));
     }
@@ -72,5 +75,13 @@ class NoticesController extends Controller
         $template = view()->file(app_path('Http/Templates/template.blade.php'), $data);
 
         return $template;
+    }
+
+    public function store ()
+    {
+        $data = session()->get('dcma');
+
+        return \Request::input('template');
+
     }
 }
